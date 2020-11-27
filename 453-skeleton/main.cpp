@@ -169,14 +169,21 @@ public:
 		aspect = float(width)/float(height);
 	}
 
-	void viewPipeline(ShaderProgram &sp, Scenery& const scenery) {
+	void viewPipeline(ShaderProgram &sp, Scenery& const scenery, bool const applyShading) {
 		glm::mat4 M = scenery.getModel();
 		glm::mat4 V = camera.getView();
 		glm::mat4 P = glm::perspective(glm::radians(45.0f), aspect, 0.01f, 1000.f);
 
-		GLint location = glGetUniformLocation(sp, "light");
-		glm::vec3 light = camera.getPos();
-		glUniform3fv(location, 1, glm::value_ptr(light));
+		GLint lightPosLocation = glGetUniformLocation(sp, "lightPos");
+		glm::vec3 lightPos = glm::vec3(0,0,0); //light is coming from the and sun is at the origin
+		glUniform3fv(lightPosLocation, 1, glm::value_ptr(lightPos));
+
+		GLint cameraPosLocation = glGetUniformLocation(sp, "cameraPos");
+		glm::vec3 cameraPos = camera.getPos();
+		glUniform3fv(cameraPosLocation, 1, glm::value_ptr(cameraPos));
+
+		GLint applyShadingLocation = glGetUniformLocation(sp, "applyShading");
+		glUniform1i(applyShadingLocation, (int)applyShading);
 
 		GLint uniMat = glGetUniformLocation(sp, "M");
 		glUniformMatrix4fv(uniMat, 1, GL_FALSE, glm::value_ptr(M));
@@ -323,19 +330,19 @@ int main() {
 
 		shader.use();
 
-		a4->viewPipeline(shader, stars);
+		a4->viewPipeline(shader, stars, false);
 		stars.render();
 
 		sun.update(elapsedTime.count());
-		a4->viewPipeline(shader, sun);
+		a4->viewPipeline(shader, sun, false);
 		sun.render();
 
 		earth.update(elapsedTime.count());
-		a4->viewPipeline(shader, earth);
+		a4->viewPipeline(shader, earth, true);
 		earth.render();
 
 		moon.update(elapsedTime.count());
-		a4->viewPipeline(shader, moon);
+		a4->viewPipeline(shader, moon, true);
 		moon.render();
 
 
