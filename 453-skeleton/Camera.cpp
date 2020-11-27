@@ -10,7 +10,7 @@
 Camera::Camera(float t, float p, float r) : theta(t), phi(p), radius(r) {
 }
 
-glm::mat4 Camera::getView() {
+glm::mat4 Camera::getView() const {
 	glm::vec3 eye = radius * glm::vec3(std::cos(theta) * std::sin(phi), std::sin(theta), std::cos(theta) * std::cos(phi));
 	glm::vec3 at = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -18,7 +18,7 @@ glm::mat4 Camera::getView() {
 	return glm::lookAt(eye, at, up);
 }
 
-glm::vec3 Camera::getPos() {
+glm::vec3 Camera::getPos() const {
 	return radius * glm::vec3(std::cos(theta) * std::sin(phi), std::sin(theta), std::cos(theta) * std::cos(phi));
 }
 

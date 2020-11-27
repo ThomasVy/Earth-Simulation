@@ -109,6 +109,8 @@ endforeach()
 configure_file(images/earth.jpg images/earth.jpg COPYONLY)
 configure_file(images/moon.jpg images/moon.jpg COPYONLY)
 configure_file(images/sun.jpg images/sun.jpg COPYONLY)
+configure_file(images/stars.jpg images/stars.jpg COPYONLY)
+
 
 add_executable(${APP_NAME} ${SOURCES})
 target_include_directories(${APP_NAME} PRIVATE ${INCLUDES})

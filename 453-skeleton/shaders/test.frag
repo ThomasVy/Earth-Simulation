@@ -1,16 +1,21 @@
 #version 330 core
 
-in vec3 fragPos;
-in vec3 fragColor;
-in vec3 n;
+in vec4 fragPos;
+in vec4 n;
+in vec2 tc;
 
 uniform vec3 light;
-
+uniform sampler2D sampler;
 out vec4 color;
 
+
 void main() {
-	vec3 lightDir = normalize(light - fragPos);
-    vec3 normal = normalize(n);
+	vec4 lightDir = normalize(vec4(light, 0.0) - fragPos);
+    vec4 normal = normalize(n);
     float diff = max(dot(lightDir, normal), 0.0);
-	color = vec4(diff * fragColor, 1.0);
+
+	vec4 d = texture(sampler, tc);
+	if(d.a < 0.01)
+        discard; // If the texture is transparent, don't draw the fragment
+	color = vec4(diff * d);
 }
