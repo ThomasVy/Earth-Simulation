@@ -12,12 +12,14 @@ out vec4 color;
 
 
 void main() {
-	vec4 lightDir = normalize(vec4(lightPos, 1.0) - objectFragPos);
+	vec4 lightDir = vec4(lightPos, 1.0) - objectFragPos;
+	float lightDistance = length(lightDir);
+	vec4 normalizedLightDir = normalize(lightDir);
     vec4 normal = normalize(n);
-    float diff = max(dot(lightDir, normal), 0.0);
+    float diff = max(dot(normalizedLightDir, normal), 0.0);
 
 	vec4 viewDir = normalize(vec4(cameraPos, 1.0) - objectFragPos);
-	vec4 reflectedLightDir = normalize(2 * dot(lightDir, normal) * normal - lightDir);
+	vec4 reflectedLightDir = normalize(2 * dot(normalizedLightDir, normal) * normal - normalizedLightDir);
 	float alpha = 16;
 	float specular = pow(max(dot(reflectedLightDir, viewDir), 0.0), alpha);
 
@@ -27,7 +29,7 @@ void main() {
         discard; // If the texture is transparent, don't draw the fragment
 
 	if(applyShading)
-		color = (specular+ambient+diff) * d;
+		color = ((diff+specular)/pow(lightDistance,2)+ambient) * d;
 	else
 		color = d;
 }
