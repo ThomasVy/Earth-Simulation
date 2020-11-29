@@ -1,5 +1,6 @@
-The provided code gives you a spherical camera and flat shades a cube to base your Assignment 4 on.
+Thomas Vy, 30000789, CPSC 453 - Assignment 4 
 
-To control the spherical camera:
-	Scroll wheel zooms in and out on the cube
-	Holding the right mouse button and dragging allows you to rotate the camera around the cube
+How to control:
+Hold right mouse button and drag to rotate the camera around 
+Press P to pause the simulation
+Press R to reset the animation to the starting position
