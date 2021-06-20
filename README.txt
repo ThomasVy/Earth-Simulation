@@ -1,4 +1,4 @@
-Thomas Vy, 30000789, CPSC 453 - Assignment 4 
+Thomas Vy
 
 OS: Windows 10
 IDE: Visual Studio 2020
